@@ -1,18 +1,11 @@
-/* Shared style for the student labs. Same tokens as the deck, plus a dark theme. */
+/* Shared style for the landing page and labs. Light by default; dark when the visitor picks it. */
 :root {
+  color-scheme: light;
   --band: #162a6c; --band-ink: #ffffff; --ink: #1d2433; --dim: #5a6275; --faint: #8a91a1;
   --rule: #d9dde6; --paper: #ffffff; --wash: #f3f5f9; --mark: #162a6c; --mark2: #b9c0d3;
   --good: #1e7d4f; --good-wash: #e8f4ed; --bad: #b3261e; --bad-wash: #fbeceb; --warn: #a86400; --warn-wash: #fdf3e2;
   --font-body: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-head: Georgia, "Times New Roman", serif;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --band: #22377f; --ink: #e6e9f0; --dim: #aab1c2; --faint: #7f879a; --rule: #333b4f; --paper: #121726; --wash: #1b2133;
-    --mark: #8fa6ec; --mark2: #465068;
-    --good: #5cc28f; --good-wash: #16301f; --bad: #f08a80; --bad-wash: #3a1b19; --warn: #e3a64a; --warn-wash: #33260f;
-  }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
@@ -63,3 +56,9 @@ svg text { font-family: var(--font-body); }
 footer { font-size: 13px; color: var(--faint); }
 @media (prefers-reduced-motion: no-preference) { .case { transition: fill .2s; } }
 header.band a { color: inherit; text-underline-offset: 3px; }
+header.band > div { position: relative; }
+.theme-toggle { position: absolute; top: 0; right: 0; font: 600 13px var(--font-body); letter-spacing: .04em;
+  color: var(--band-ink); background: transparent; border: 1px solid rgba(255,255,255,.55); border-radius: 999px;
+  padding: 5px 12px; cursor: pointer; }
+.theme-toggle:hover { background: rgba(255,255,255,.12); }
+header.band .kicker, header.band h1 { padding-right: 96px; }
