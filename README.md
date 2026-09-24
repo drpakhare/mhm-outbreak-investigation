@@ -26,3 +26,8 @@ house style of `intro-economic-evaluation-health`. It follows one illustrative o
     node src/chk.mjs outbreak-investigation     # must print "all clean"
 
 All outbreak figures are illustrative, constructed for teaching.
+
+## Credits
+Prepared by Dr. Abhijit Pakhare, Department of Community and Family Medicine, AIIMS Bhopal.
+The slides, the two labs, the illustrative dataset and the build scripts were drafted and coded with
+Claude (Anthropic), then reviewed by the author. Slides use reveal.js (MIT licence).
