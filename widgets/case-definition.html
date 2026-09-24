@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Case Definition Lab</title>
+<link rel="stylesheet" href="widget.css">
+</head>
+<body>
+<header class="band"><div>
+  <p class="kicker"><a href="../index.html">Outbreak investigation</a> · Lab 1</p>
+  <h1>Case Definition Lab</h1>
+  <p>Change who counts as a case. Watch the case count, the epi curve and the biryani relative risk move.</p>
+</div></header>
+<main>
+  <section class="panel" aria-label="Case definition">
+    <h2>Your case definition</h2>
+    <div class="row">
+      <span class="label">Loose stools in 24 h, at least</span>
+      <div class="seg" id="stools" role="group" aria-label="Minimum loose stools">
+        <button data-v="1">1</button><button data-v="2">2</button><button data-v="3">3</button><button data-v="4">4</button><button data-v="5">5</button>
+      </div>
+    </div>
+    <div class="row">
+      <span class="label">Onset window</span>
+      <div class="seg" id="window" role="group" aria-label="Onset window">
+        <button data-v="outbreak">Mon 12:00 to Wed 12:00</button><button data-v="week">Any time, Sun to Thu</button>
+      </div>
+    </div>
+    <div class="row">
+      <label class="check"><input type="checkbox" id="vomit"> Also count vomiting without diarrhoea</label>
+      <button class="chip" id="reset">Back to working definition</button>
+    </div>
+  </section>
+
+  <section class="stats" aria-live="polite">
+    <div class="stat"><div class="n" id="sN">48</div><div class="l" id="sNl">cases</div></div>
+    <div class="stat"><div class="n" id="sA1">43.8%</div><div class="l">attack rate, ate biryani</div></div>
+    <div class="stat"><div class="n" id="sA0">7.1%</div><div class="l">attack rate, no biryani</div></div>
+    <div class="stat" id="sRRbox"><div class="n" id="sRR">6.1</div><div class="l" id="sCI">relative risk</div></div>
+  </section>
+
+  <p class="claim" id="msg"></p>
+
+  <section class="panel">
+    <h2>Epidemic curve</h2>
+    <div class="row note" id="legend"></div>
+    <div class="scroll"><svg id="curve" viewBox="0 0 980 330" style="min-width:680px;width:100%" role="img" aria-label="Epidemic curve under your case definition"></svg></div>
+    <p class="note">Each box is one person. Tap or hover a box to see who it is.</p>
+  </section>
+
+  <section class="panel">
+    <h2>What changed against the working definition</h2>
+    <div class="scroll"><table id="diff"></table></div>
+  </section>
+
+  <footer>180 staff who ate at the canteen on Monday were interviewed. Illustrative figures, constructed for teaching.</footer>
+</main>
+<div class="tip" id="tip" hidden></div>
+<script src="canteen-data.js"></script>
+<script>
+const P = window.CANTEEN.people;
+const DEF = { stools: 3, window: 'outbreak', vomit: false };
+let st = { ...DEF };
+const inWin = (p, w) => p.onset !== null && (w === 'week' ? p.onset >= -24 && p.onset < 96 : p.onset >= 12 && p.onset < 60);
+const isCase = (p, d) => inWin(p, d.window) && (p.stools >= d.stools || (d.vomit && p.vomit));
+const baseCase = new Set(P.filter(p => isCase(p, DEF)).map(p => p.id));
+const pct = x => isFinite(x) ? (100 * x).toFixed(1) + '%' : 'n/a';
+
+function rr(cases) {
+  const a = P.filter(p => p.ate.biryani && cases.has(p.id)).length, n1 = P.filter(p => p.ate.biryani).length;
+  const c = P.filter(p => !p.ate.biryani && cases.has(p.id)).length, n0 = P.length - n1;
+  const r = (a / n1) / (c / n0);
+  let lo = NaN, hi = NaN;
+  if (a > 0 && c > 0) { const se = Math.sqrt(1/a - 1/n1 + 1/c - 1/n0); lo = r * Math.exp(-1.96*se); hi = r * Math.exp(1.96*se); }
+  return { a, n1, c, n0, r, lo, hi };
+}
+
+function fmtH(h) {
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri']; const d = Math.floor((h + 24) / 24); const hh = h + 24 - d*24;
+  return days[d] + ' ' + String(Math.floor(hh)).padStart(2,'0') + ':' + String(Math.round((hh % 1) * 60)).padStart(2,'0');
+}
+
+function drawCurve(cases) {
+  const svg = document.getElementById('curve');
+  const H0 = -24, H1 = 96, BIN = 4, X0 = 44, W = 920, BASE = 270, nb = (H1 - H0) / BIN, bw = W / nb, BOX = 13, GAP = 2;
+  const x = h => X0 + (h - H0) / (H1 - H0) * W;
+  const bins = Array.from({ length: nb }, () => []);
+  P.filter(p => cases.has(p.id)).sort((a, b) => (baseCase.has(b.id) - baseCase.has(a.id)) || a.onset - b.onset)
+    .forEach(p => bins[Math.floor((p.onset - H0) / BIN)].push(p));
+  const maxN = Math.max(15, ...bins.map(b => b.length));
+  const bh = Math.min(BOX + GAP, (BASE - 20) / maxN);
+  let s = '';
+  [5, 10, 15].forEach(v => { if (v <= maxN) { const y = BASE - v*bh; s += `<line x1="${X0}" x2="${X0+W}" y1="${y}" y2="${y}" stroke="var(--rule)"/><text x="${X0-8}" y="${y+5}" text-anchor="end" font-size="14" fill="var(--dim)">${v}</text>`; } });
+  const wx0 = x(12), wx1 = x(60);
+  s += `<rect x="${wx0}" y="10" width="${wx1-wx0}" height="${BASE-10}" fill="none" stroke="var(--faint)" stroke-dasharray="5 4"/>`;
+  s += `<text x="${wx0+6}" y="26" font-size="14" fill="var(--dim)">Working window</text>`;
+  bins.forEach((b, i) => b.forEach((p, k) => {
+    const base = baseCase.has(p.id);
+    s += `<rect class="case" data-id="${p.id}" x="${X0 + i*bw + 1.5}" y="${BASE - (k+1)*bh + GAP/2}" width="${bw-3}" height="${bh-GAP}" rx="2" fill="${base ? 'var(--mark)' : 'var(--mark2)'}" stroke="${base ? 'none' : 'var(--dim)'}" stroke-width="1"/>`;
+  }));
+  s += `<line x1="${X0}" x2="${X0+W}" y1="${BASE}" y2="${BASE}" stroke="var(--ink)" stroke-width="1.5"/>`;
+  for (let h = -24; h <= 96; h += 24) {
+    const anchor = h === H0 ? 'start' : h === H1 ? 'end' : 'middle';
+    s += `<line x1="${x(h)}" x2="${x(h)}" y1="${BASE}" y2="${BASE+6}" stroke="var(--ink)"/><text x="${x(h)}" y="${BASE+24}" text-anchor="${anchor}" font-size="14" fill="var(--dim)">${fmtH(h)}</text>`;
+  }
+  s += `<text x="${X0}" y="${BASE+50}" font-size="14" fill="var(--dim)">Onset, 4-hour intervals</text>`;
+  svg.innerHTML = s;
+}
+
+function render() {
+  document.querySelectorAll('#stools button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.v === st.stools));
+  document.querySelectorAll('#window button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === st.window));
+  document.getElementById('vomit').checked = st.vomit;
+  const cases = new Set(P.filter(p => isCase(p, st)).map(p => p.id));
+  const added = P.filter(p => cases.has(p.id) && !baseCase.has(p.id));
+  const dropped = P.filter(p => !cases.has(p.id) && baseCase.has(p.id));
+  const R = rr(cases);
+  document.getElementById('sN').textContent = cases.size;
+  document.getElementById('sNl').textContent = `cases (${added.length ? '+' + added.length : '0'} added, ${dropped.length} dropped)`;
+  document.getElementById('sA1').textContent = pct(R.a / R.n1);
+  document.getElementById('sA0').textContent = pct(R.c / R.n0);
+  document.getElementById('sRR').textContent = isFinite(R.r) ? R.r.toFixed(1) : 'n/a';
+  document.getElementById('sCI').textContent = isFinite(R.lo) ? `relative risk, 95% CI ${R.lo.toFixed(1)} to ${R.hi.toFixed(1)}` : 'relative risk';
+  const msg = document.getElementById('msg'), box = document.getElementById('sRRbox');
+  if (!added.length && !dropped.length) { msg.className = 'claim good'; msg.textContent = 'This is the working definition: 48 cases, relative risk 6.1 for the biryani.'; box.className = 'stat good'; }
+  else if (added.length && !dropped.length) { msg.className = 'claim warn'; msg.textContent = `You pulled in ${added.length} people who are probably not part of this outbreak. Mixing them in makes the ill look more like the well, so the relative risk falls to ${R.r.toFixed(1)}.`; box.className = 'stat warn'; }
+  else if (dropped.length && !added.length) { msg.className = 'claim warn'; msg.textContent = `A stricter definition dropped ${dropped.length} real cases. The relative risk stays high, but you now undercount the outbreak and may miss sick staff who should stay off work.`; box.className = 'stat warn'; }
+  else { msg.className = 'claim warn'; msg.textContent = `You added ${added.length} and dropped ${dropped.length} people. The relative risk is now ${R.r.toFixed(1)}.`; box.className = 'stat warn'; }
+  document.getElementById('legend').innerHTML = `<span><svg width="14" height="14"><rect width="14" height="14" rx="2" fill="var(--mark)"/></svg> case under the working definition</span>` +
+    (added.length ? `<span><svg width="14" height="14"><rect x=".5" y=".5" width="13" height="13" rx="2" fill="var(--mark2)" stroke="var(--dim)"/></svg> added by your definition</span>` : '');
+  const rows = [...added.map(p => [p, 'added']), ...dropped.map(p => [p, 'dropped'])];
+  document.getElementById('diff').innerHTML = rows.length
+    ? '<tr><th>ID</th><th>Change</th><th>Job</th><th>Onset</th><th class="num">Loose stools</th><th>Vomiting</th><th>Ate biryani</th></tr>' +
+      rows.map(([p, k]) => `<tr><td>${p.id}</td><td><span class="pill ${k === 'added' ? 'warn' : 'bad'}">${k}</span></td><td>${p.role}</td><td>${p.onset_label}</td><td class="num">${p.stools}</td><td>${p.vomit ? 'Yes' : 'No'}</td><td>${p.ate.biryani ? 'Yes' : 'No'}</td></tr>`).join('')
+    : '<tr><td class="note">No change. Try 1 loose stool, or tick vomiting.</td></tr>';
+  drawCurve(cases);
+}
+document.querySelectorAll('#stools button').forEach(b => b.onclick = () => { st.stools = +b.dataset.v; render(); });
+document.querySelectorAll('#window button').forEach(b => b.onclick = () => { st.window = b.dataset.v; render(); });
+document.getElementById('vomit').onchange = e => { st.vomit = e.target.checked; render(); };
+document.getElementById('reset').onclick = () => { st = { ...DEF }; render(); };
+const tip = document.getElementById('tip'), byId = Object.fromEntries(P.map(p => [p.id, p]));
+function showTip(e) {
+  const id = e.target.dataset && e.target.dataset.id; if (!id) { tip.hidden = true; return; }
+  const p = byId[id];
+  tip.innerHTML = `<b>${p.id}</b> · ${p.role}, ${p.ward}<br>Onset ${p.onset_label}<br>${p.stools} loose stools${p.vomit ? ', vomiting' : ''}<br>Ate biryani: ${p.ate.biryani ? 'yes' : 'no'}`;
+  tip.hidden = false;
+  tip.style.left = Math.min(e.clientX + 12, innerWidth - 250) + 'px'; tip.style.top = (e.clientY + 12) + 'px';
+}
+const curve = document.getElementById('curve');
+curve.addEventListener('pointermove', showTip); curve.addEventListener('pointerdown', showTip);
+curve.addEventListener('pointerleave', () => tip.hidden = true);
+render();
+</script>
+</body>
+</html>

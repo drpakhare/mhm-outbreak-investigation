@@ -1,0 +1,28 @@
+/* Design tokens. Every colour here means something; do not add one that does not.
+   NOTE: reconstructed from the house-style brief. If the original tokens.css from
+   intro-economic-evaluation-health is available, drop it in over this file. */
+:root {
+  --band: #162a6c;        /* navy: title band, headings, cases on charts */
+  --band-ink: #ffffff;
+  --ink: #1d2433;         /* body text */
+  --dim: #5a6275;         /* .dim */
+  --faint: #8a91a1;       /* .faint */
+  --rule: #d9dde6;        /* hairlines, table rules */
+  --paper: #ffffff;
+  --wash: #f3f5f9;        /* card background */
+
+  --good: #1e7d4f;        /* adopt, resolution */
+  --good-wash: #e8f4ed;
+  --bad: #b3261e;         /* reject */
+  --bad-wash: #fbeceb;
+  --warn: #a86400;        /* caution, trap */
+  --warn-wash: #fdf3e2;
+
+  --font-body: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-head: Georgia, "Times New Roman", serif;
+
+  --fs-body: 26px;
+  --fs-lede: 31px;
+  --fs-small: 21px;
+  --fs-min: 19px;         /* 14 pt floor, never go below */
+}

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Canteen Attack Rate Lab</title>
+<link rel="stylesheet" href="widget.css">
+</head>
+<body>
+<header class="band"><div>
+  <p class="kicker"><a href="../index.html">Outbreak investigation</a> · Lab 2</p>
+  <h1>Canteen Attack Rate Lab</h1>
+  <p>Pick a dish. See its 2 by 2 table, attack rates and relative risk. Then split by biryani to test for confounding.</p>
+</div></header>
+<main>
+  <section class="panel">
+    <h2>Choose a dish</h2>
+    <div class="row" id="foods" role="group" aria-label="Dish"></div>
+    <label class="check"><input type="checkbox" id="strat"> Split by whether the person ate chicken biryani</label>
+  </section>
+
+  <section class="stats" aria-live="polite">
+    <div class="stat"><div class="n" id="a1"></div><div class="l">attack rate, ate it</div></div>
+    <div class="stat"><div class="n" id="a0"></div><div class="l">attack rate, did not eat it</div></div>
+    <div class="stat" id="rrbox"><div class="n" id="rr"></div><div class="l" id="ci"></div></div>
+    <div class="stat"><div class="n" id="share"></div><div class="l">of the 48 cases ate it</div></div>
+  </section>
+
+  <section class="panel" id="crude">
+    <h2 id="t2"></h2>
+    <div class="scroll"><table id="tab"></table></div>
+    <svg id="bars" viewBox="0 0 600 110" style="width:100%;max-width:600px" role="img" aria-label="Attack rate bars"></svg>
+  </section>
+
+  <section class="panel" id="strata" hidden>
+    <h2>Split by chicken biryani</h2>
+    <div class="scroll"><table id="stab"></table></div>
+    <p class="claim" id="smsg"></p>
+  </section>
+
+  <section class="panel">
+    <h2>All dishes</h2>
+    <div class="scroll"><table id="all"></table></div>
+    <p class="note">Tap a row to open that dish. A relative risk of 1 means the dish made no difference.</p>
+  </section>
+  <footer>180 staff interviewed, 48 cases under the working case definition. Illustrative figures, constructed for teaching.</footer>
+</main>
+<script src="canteen-data.js"></script>
+<script>
+const D = window.CANTEEN, P = D.people, FOODS = D.meta.foods;
+const isCase = p => p.stools >= 3 && p.onset !== null && p.onset >= 12 && p.onset < 60;
+let food = 'biryani';
+const pct = x => isFinite(x) ? (100 * x).toFixed(1) + '%' : 'n/a';
+function two(f, group) {
+  const g = group || P;
+  const a = g.filter(p => p.ate[f] && isCase(p)).length, n1 = g.filter(p => p.ate[f]).length;
+  const c = g.filter(p => !p.ate[f] && isCase(p)).length, n0 = g.length - n1;
+  const r = (a / n1) / (c / n0);
+  let lo = NaN, hi = NaN;
+  if (a && c) { const se = Math.sqrt(1/a - 1/n1 + 1/c - 1/n0); lo = r*Math.exp(-1.96*se); hi = r*Math.exp(1.96*se); }
+  return { a, b: n1 - a, n1, c, d: n0 - c, n0, r, lo, hi, N: g.length };
+}
+const verdict = t => t.lo > 1 ? ['bad', 'suspect'] : t.hi < 1 ? ['warn', 'check'] : (!isFinite(t.lo) ? ['warn', 'too few'] : ['good', 'clear']);
+
+function render() {
+  const t = two(food), name = FOODS[food];
+  document.getElementById('foods').innerHTML = Object.entries(FOODS).map(([k, v]) => `<button class="chip" data-f="${k}" aria-pressed="${k === food}">${v}</button>`).join('');
+  document.querySelectorAll('#foods button').forEach(b => b.onclick = () => { food = b.dataset.f; render(); });
+  document.getElementById('a1').textContent = pct(t.a / t.n1);
+  document.getElementById('a0').textContent = pct(t.c / t.n0);
+  document.getElementById('rr').textContent = t.r.toFixed(2);
+  document.getElementById('ci').textContent = `relative risk, 95% CI ${t.lo.toFixed(2)} to ${t.hi.toFixed(2)}`;
+  document.getElementById('rrbox').className = 'stat ' + verdict(t)[0];
+  document.getElementById('share').textContent = `${t.a} of ${t.a + t.c}`;
+  document.getElementById('t2').textContent = `${name}: 2 by 2 table`;
+  document.getElementById('tab').innerHTML = `<tr><th></th><th class="num">Ill</th><th class="num">Well</th><th class="num">Total</th><th class="num">Attack rate</th></tr>
+    <tr><td>Ate ${name.toLowerCase()}</td><td class="num">${t.a}</td><td class="num">${t.b}</td><td class="num">${t.n1}</td><td class="num">${pct(t.a/t.n1)}</td></tr>
+    <tr><td>Did not eat it</td><td class="num">${t.c}</td><td class="num">${t.d}</td><td class="num">${t.n0}</td><td class="num">${pct(t.c/t.n0)}</td></tr>
+    <tr><td>Relative risk</td><td colspan="4" class="num">${pct(t.a/t.n1)} ÷ ${pct(t.c/t.n0)} = <b>${t.r.toFixed(2)}</b></td></tr>`;
+  const W = 420, bars = [['Ate it', t.a/t.n1], ['Did not eat it', t.c/t.n0]];
+  document.getElementById('bars').innerHTML = bars.map(([l, v], i) => `
+    <text x="0" y="${i*48+27}" font-size="15" fill="var(--dim)">${l}</text>
+    <rect x="130" y="${i*48+10}" width="${Math.max(2, v*W)}" height="26" rx="3" fill="${i ? 'var(--mark2)' : 'var(--mark)'}"/>
+    <text x="${138 + v*W}" y="${i*48+28}" font-size="15" fill="var(--ink)">${pct(v)}</text>`).join('') +
+    `<line x1="130" x2="130" y1="4" y2="106" stroke="var(--ink)"/>`;
+
+  const strat = document.getElementById('strat'), box = document.getElementById('strata');
+  strat.disabled = food === 'biryani';
+  if (food === 'biryani') strat.checked = false;
+  box.hidden = !strat.checked;
+  if (strat.checked) {
+    const s1 = two(food, P.filter(p => p.ate.biryani)), s0 = two(food, P.filter(p => !p.ate.biryani));
+    const num = [s1, s0].reduce((z, s) => z + s.a * s.n0 / s.N, 0), den = [s1, s0].reduce((z, s) => z + s.c * s.n1 / s.N, 0);
+    const mh = num / den;
+    const row = (lab, s) => `<tr><td>${lab}</td><td class="num">${s.a} / ${s.n1}</td><td class="num">${pct(s.a/s.n1)}</td><td class="num">${s.c} / ${s.n0}</td><td class="num">${pct(s.c/s.n0)}</td><td class="num">${isFinite(s.r) ? s.r.toFixed(2) : 'n/a'}</td></tr>`;
+    document.getElementById('stab').innerHTML = `<tr><th>Group</th><th class="num">Ate ${name.toLowerCase()}: ill / total</th><th class="num">Attack rate</th><th class="num">Did not: ill / total</th><th class="num">Attack rate</th><th class="num">Relative risk</th></tr>` +
+      row('Ate biryani', s1) + row('No biryani', s0) +
+      `<tr><td colspan="5">Crude relative risk, no split</td><td class="num">${t.r.toFixed(2)}</td></tr><tr><td colspan="5"><b>Adjusted for biryani</b> (Mantel-Haenszel)</td><td class="num"><b>${mh.toFixed(2)}</b></td></tr>`;
+    const m = document.getElementById('smsg');
+    const shift = Math.abs(Math.log(mh) - Math.log(t.r)) > Math.log(1.2);
+    m.className = shift ? 'claim good' : 'claim';
+    m.textContent = shift
+      ? `Once you account for biryani, the relative risk moves from ${t.r.toFixed(2)} to ${mh.toFixed(2)}. Much of the crude association was biryani riding along. That is confounding.`
+      : `Splitting by biryani barely changes the relative risk (${t.r.toFixed(2)} crude, ${mh.toFixed(2)} adjusted). Biryani is not distorting this dish.`;
+  }
+
+  document.getElementById('all').innerHTML = `<tr><th>Dish</th><th class="num">Ate: ill / total</th><th class="num">Attack rate</th><th class="num">Did not: ill / total</th><th class="num">Attack rate</th><th class="num">Relative risk</th><th></th></tr>` +
+    Object.entries(FOODS).map(([k, v]) => { const s = two(k), [c, l] = verdict(s);
+      return `<tr class="pick${k === food ? ' sel' : ''}" data-f="${k}" tabindex="0"><td>${v}</td><td class="num">${s.a} / ${s.n1}</td><td class="num">${pct(s.a/s.n1)}</td><td class="num">${s.c} / ${s.n0}</td><td class="num">${pct(s.c/s.n0)}</td><td class="num">${s.r.toFixed(2)}</td><td><span class="pill ${c}">${l}</span></td></tr>`; }).join('');
+  document.querySelectorAll('#all tr.pick').forEach(r => { r.onclick = () => { food = r.dataset.f; render(); }; r.onkeydown = e => { if (e.key === 'Enter') r.onclick(); }; });
+}
+document.getElementById('strat').onchange = render;
+render();
+</script>
+</body>
+</html>

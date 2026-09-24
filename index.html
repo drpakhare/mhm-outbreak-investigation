@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Outbreak Investigation for Hospital Managers</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="widgets/widget.css">
+<style>
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  a.card { display: grid; gap: 6px; align-content: start; background: var(--wash); border-top: 4px solid var(--band); padding: 18px; color: var(--ink); text-decoration: none; }
+  a.card:hover { background: var(--rule); }
+  a.card:focus-visible { outline: 3px solid var(--warn); outline-offset: 2px; }
+  a.card h2 { margin: 0; }
+  a.card p { margin: 0; color: var(--dim); font-size: 15px; }
+  a.card .go { color: var(--ink); font-weight: 600; font-size: 15px; margin-top: 4px; }
+  ol.steps { margin: 0; padding-left: 1.2em; max-width: 70ch; }
+  ol.steps li { margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<header class="band"><div>
+  <p class="kicker">Masters in Hospital Management · Department of Community and Family Medicine, AIIMS Bhopal</p>
+  <h1>Outbreak Investigation for Hospital Managers</h1>
+  <p>A one-hour session that follows one outbreak, Salmonella from the staff canteen's chicken biryani, from the first sick call to the final report.</p>
+</div></header>
+<main>
+  <section class="cards" aria-label="Session materials">
+    <a class="card" href="slides/outbreak-investigation.html">
+      <span class="label">Slides</span>
+      <h2>Forty staff are sick by Tuesday evening</h2>
+      <p>25 slides. Arrow keys to move, S for speaker notes, F for full screen.</p>
+      <span class="go">Open the slides →</span>
+    </a>
+    <a class="card" href="widgets/case-definition.html">
+      <span class="label">Lab 1</span>
+      <h2>Case Definition Lab</h2>
+      <p>Change who counts as a case and watch the epi curve and the relative risk move.</p>
+      <span class="go">Open Lab 1 →</span>
+    </a>
+    <a class="card" href="widgets/attack-rate-lab.html">
+      <span class="label">Lab 2</span>
+      <h2>Canteen Attack Rate Lab</h2>
+      <p>Attack rates and relative risk for each dish. Split by biryani to find the confounder.</p>
+      <span class="go">Open Lab 2 →</span>
+    </a>
+  </section>
+
+  <section class="panel">
+    <h2>What the session covers</h2>
+    <ol class="steps">
+      <li>Is this an outbreak? Baseline, clusters and pseudo-outbreaks</li>
+      <li>Case definition and line list</li>
+      <li>Epi curve: reading the shape, counting back to the exposure</li>
+      <li>Time, place and person</li>
+      <li>Attack rates, relative risk and confounding</li>
+      <li>Lab and kitchen evidence, control from day one, communication and IDSP reporting</li>
+      <li>The same steps for a NICU cluster, and what to prepare before the next outbreak</li>
+    </ol>
+  </section>
+
+  <footer>The canteen outbreak and all its numbers are illustrative, constructed for teaching. Sources are listed on the last slide.</footer>
+</main>
+</body>
+</html>

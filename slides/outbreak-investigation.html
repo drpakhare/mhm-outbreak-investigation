@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Outbreak investigation for hospital managers</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../vendor/reveal.js/dist/reveal.css">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/slides.css">
+<style>
+  /* per-deck: epidemic curve, line list, question layout */
+  .epi { display: block; width: 1152px; height: auto; margin: 0 64px; }
+  .epi .case { fill: var(--band); }
+  .epi .axis { stroke: var(--ink); stroke-width: 2; }
+  .epi .grid { stroke: var(--rule); stroke-width: 1; }
+  .epi .tick { font: 19px var(--font-body); fill: var(--dim); }
+  .epi .lbl { font: 600 20px var(--font-body); fill: var(--ink); }
+  .epi .dimt { fill: var(--dim); font-weight: 400; }
+  .epi .win { fill: var(--wash); stroke: var(--faint); stroke-dasharray: 6 5; stroke-width: 1.5; }
+  .epi .med { stroke: var(--ink); stroke-width: 2.5; stroke-dasharray: 6 5; }
+  .epi .halo { stroke: var(--paper); stroke-width: 7; }
+  .epi .lunch { stroke: var(--ink); stroke-width: 3; }
+  .epi .lunchdot { fill: var(--ink); }
+  table.ll td, table.ll th { padding: 5px 10px; }
+  .reveal td.hl { font-weight: 700; color: var(--band); }
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- 1 -->
+<section class="cover">
+  <p class="kicker">Masters in Hospital Management · Epidemiology for managers</p>
+  <h1>Forty staff are sick by Tuesday evening. What do you do first?</h1>
+  <p class="lede dim">Outbreak investigation, followed one step at a time through a single hospital outbreak</p>
+  <p class="small faint">Department of Community and Family Medicine, AIIMS Bhopal · 60 minutes</p>
+  <aside class="notes">Good morning. For the next hour we will follow one outbreak from the first phone call to the final report. It happens in a hospital like ours, and it lands on the desk of someone like you: the hospital manager. I will stop often and ask you what you would do. There are no wrong answers in those pauses. The case is invented for teaching, but every step in it is how real outbreaks are investigated.</aside>
+</section>
+
+<!-- 2 -->
+<section>
+  <h2>An outbreak is a management problem before it is a lab result</h2>
+  <p class="lede">When staff or patients fall sick together, the manager feels it first.</p>
+  <div class="cards c4">
+    <div class="card"><h3>Beds</h3><p class="small">Wards close or stop admitting. Surgery lists get cancelled.</p></div>
+    <div class="card"><h3>Staff</h3><p class="small">Rosters collapse overnight. Sick staff must stay away from patients.</p></div>
+    <div class="card"><h3>Patients</h3><p class="small">Vulnerable patients can be infected by staff, food or equipment.</p></div>
+    <div class="card"><h3>Trust</h3><p class="small">Media, regulators and families ask one question: who knew, and when?</p></div>
+  </div>
+  <p class="claim">The epidemiologist finds the cause. The manager makes the response possible.</p>
+  <aside class="notes">Why should a hospital manager learn outbreak investigation? Because an outbreak is first felt as a management problem. Beds close. Rosters fall apart. Patients are put at risk. And then the phone rings from a reporter or the district office. You will not run the laboratory tests yourself. But you will decide how fast the team moves, who is excluded from work, what gets reported and to whom. So you need to understand the logic well enough to support it and to question it.</aside>
+</section>
+
+<!-- 3 -->
+<section>
+  <h2>When does "a few sick people" become an outbreak?</h2>
+  <p class="lede">Ask the room first. Then compare with this.</p>
+  <div class="cards c3">
+    <div class="card"><h3>Outbreak</h3><p class="small">More cases than expected, in a given place, population and time.</p></div>
+    <div class="card"><h3>Baseline</h3><p class="small">The usual number of cases. You cannot say "more" without knowing "usual".</p></div>
+    <div class="card"><h3>Cluster</h3><p class="small">Cases grouped in place or time. It may or may not be above baseline.</p></div>
+  </div>
+  <p class="claim">Two cases of a disease you never see can be an outbreak. Twenty cases of the common cold may not be.</p>
+  <aside class="notes">Let us start with a question. When does a few sick people become an outbreak? Take a moment. You will hear answers like "when many people are sick". The key word in the definition is expected. An outbreak is more cases than expected, for that place, that population and that time. That means you need a baseline, the usual number. A single case of cholera in a hospital kitchen may be an outbreak. Twenty colds in winter probably are not. A cluster is simply cases grouped together. It becomes an outbreak once you show it is above baseline.</aside>
+</section>
+
+<!-- 4 -->
+<section>
+  <h2>Tuesday, 9 am: twenty-nine staff have called in sick</h2>
+  <div class="cards c3">
+    <div class="stat"><span class="n">29</span><span class="l">staff off sick with diarrhoea</span></div>
+    <div class="stat"><span class="n">7</span><span class="l">seen in Emergency overnight</span></div>
+    <div class="stat"><span class="n">2 to 3</span><span class="l">usual staff sick calls in a week</span></div>
+  </div>
+  <p class="lede" style="margin-top:30px">Nurses, residents, housekeeping, security and office staff. Nine different departments. Most say it started last night.</p>
+  <p class="claim warn">The nursing superintendent wants to know by 10 am whether to cancel today's surgery lists.</p>
+  <p class="cite">Illustrative figures, constructed for teaching.</p>
+  <aside class="notes">Here is our hospital. A 900 bed teaching hospital. It is Tuesday morning, 9 am. The duty manager tells you twenty-nine staff have called in sick with diarrhoea, and seven were seen in Emergency overnight. Normally you get two or three sick calls a week for tummy trouble. They come from nine departments, all kinds of jobs. And the nursing superintendent wants a decision on surgery lists in an hour. This is where we begin. Everything from here on uses this one outbreak.</aside>
+</section>
+
+<!-- 5 -->
+<section>
+  <h2>Before anything else: is this outbreak real?</h2>
+  <p class="lede">Twenty-nine against a usual two or three looks real. What else could make the numbers jump?</p>
+  <div class="cards c2">
+    <div class="card"><h3>Check the diagnosis</h3><p class="small">Talk to the sick. See the clinical notes. Send stool samples today. Is it one illness or several?</p></div>
+    <div class="card"><h3>Rule out a pseudo-outbreak</h3><p class="small">A new lab test, a new reporting rule, a festival leave pattern, or lab contamination can all create cases on paper.</p></div>
+  </div>
+  <p class="claim good">Here: same symptoms, same night, far above baseline. Treat it as real and keep checking.</p>
+  <aside class="notes">Before you mobilise everyone, ask: is this real? Put the question to the room. What else could make numbers jump? Good answers: a new lab test that detects more, a change in how sick leave is reported, people calling in sick around a holiday, or contamination in the lab that makes negative samples look positive. That is called a pseudo-outbreak, an apparent increase that is not a true increase in illness. So two checks: confirm the diagnosis by talking to patients and sending samples, and rule out artefacts. In our case, same symptoms, same night, ten times the baseline. We treat it as real.</aside>
+</section>
+
+<!-- 6 -->
+<section>
+  <h2>The steps are a checklist, not a queue</h2>
+  <div class="cards c4">
+    <div class="card"><h3>1 Prepare</h3><p class="small">Team, authority, lab contact</p></div>
+    <div class="card"><h3>2 Confirm</h3><p class="small">Above baseline?</p></div>
+    <div class="card"><h3>3 Verify</h3><p class="small">Diagnosis, samples</p></div>
+    <div class="card"><h3>4 Define</h3><p class="small">Who counts as a case</p></div>
+    <div class="card"><h3>5 Find cases</h3><p class="small">Line list</p></div>
+    <div class="card"><h3>6 Describe</h3><p class="small">Time, place, person</p></div>
+    <div class="card"><h3>7 Suspect</h3><p class="small">Form a hypothesis</p></div>
+    <div class="card"><h3>8 Test</h3><p class="small">Compare ill and well</p></div>
+    <div class="card"><h3>9 Confirm source</h3><p class="small">Lab, environment</p></div>
+    <div class="card good"><h3>10 Control</h3><p class="small">From day one</p></div>
+    <div class="card"><h3>11 Watch</h3><p class="small">Keep counting</p></div>
+    <div class="card"><h3>12 Tell</h3><p class="small">Report, communicate</p></div>
+  </div>
+  <p class="cite">Adapted from CDC, Principles of Epidemiology in Public Health Practice, 3rd ed., Lesson 6.</p>
+  <aside class="notes">Textbooks list the steps of an outbreak investigation. This version has twelve and comes from the CDC. Do not read it as a queue where step ten waits for step nine. In real life several run at once. Control, in green, starts on day one, as soon as you have a reasonable suspicion. Communication also starts early. We will walk through these steps with our canteen outbreak. By the end you will have seen every one of them.</aside>
+</section>
+
+<!-- 7 -->
+<section>
+  <h2>Who counts as a case? Write it before you count</h2>
+  <p class="lede">A case definition has four parts. Try drafting ours.</p>
+  <table>
+    <tr><th>Part</th><th>Our working definition</th></tr>
+    <tr><td>Person</td><td>Any member of hospital staff</td></tr>
+    <tr><td>Place</td><td>Working at this hospital</td></tr>
+    <tr><td>Time</td><td>Onset between Monday 12:00 and Wednesday 12:00</td></tr>
+    <tr><td>Clinical</td><td>Three or more loose stools in 24 hours</td></tr>
+  </table>
+  <p class="small dim">Add a lab tier later: <b>confirmed</b> (stool grows the organism), <b>probable</b> (meets the clinical definition, no lab result).</p>
+  <p class="claim warn">Do not put the suspected food in the definition. You cannot then test whether the food caused it.</p>
+  <aside class="notes">Next, who counts as a case? A case definition is a standard set of criteria for deciding whether a person has the illness under investigation. It always has person, place, time and clinical features. Ask the room to draft one before you show this. Notice what is not in it: the canteen. If you define a case as "someone who ate at the canteen and got diarrhoea", you have assumed the answer and can no longer test it. Early on, keep the definition broad so you miss no one. Later you can add confirmed and probable tiers once lab results come in.</aside>
+</section>
+
+<!-- 8 -->
+<section>
+  <h2>Everything starts from a line list</h2>
+  <p class="small dim">One row per case, one column per fact. Here are the first 8 of 48 rows.</p>
+  <table class="ll small">
+    <tr><th>ID</th><th class="num">Age</th><th>Sex</th><th>Job</th><th>Department</th><th>Onset</th><th class="num">Stools</th><th>Fever</th><th>Admitted</th><th>Stool culture</th></tr>
+    <tr><td>C001</td><td class="num">33</td><td>M</td><td>Resident doctor</td><td>Surgery</td><td>Mon 18:30</td><td class="num">4</td><td>Yes</td><td>No</td><td>Not sent</td></tr>
+    <tr><td>C002</td><td class="num">53</td><td>M</td><td>Housekeeping</td><td>NICU</td><td>Mon 20:15</td><td class="num">8</td><td>Yes</td><td>Yes</td><td>Not sent</td></tr>
+    <tr><td>C003</td><td class="num">45</td><td>F</td><td>Staff nurse</td><td>OT complex</td><td>Mon 20:45</td><td class="num">4</td><td>Yes</td><td>No</td><td>No growth</td></tr>
+    <tr><td>C004</td><td class="num">38</td><td>M</td><td>Lab technician</td><td>Laboratory</td><td>Mon 23:30</td><td class="num">8</td><td>Yes</td><td>Yes</td><td>Salmonella</td></tr>
+    <tr><td>C005</td><td class="num">54</td><td>F</td><td>Staff nurse</td><td>OT complex</td><td>Mon 23:30</td><td class="num">6</td><td>No</td><td>No</td><td>Salmonella</td></tr>
+    <tr><td>C006</td><td class="num">24</td><td>F</td><td>Resident doctor</td><td>Emergency</td><td>Tue 01:15</td><td class="num">6</td><td>Yes</td><td>No</td><td>Salmonella</td></tr>
+    <tr><td>C007</td><td class="num">51</td><td>M</td><td>Admin staff</td><td>Admin block</td><td>Tue 01:30</td><td class="num">4</td><td>Yes</td><td>No</td><td>Not sent</td></tr>
+    <tr><td>C008</td><td class="num">22</td><td>F</td><td>Admin staff</td><td>Admin block</td><td>Tue 01:45</td><td class="num">7</td><td>Yes</td><td>No</td><td>No growth</td></tr>
+  </table>
+  <p class="claim">Every table and graph in this investigation is built from these rows.</p>
+  <p class="cite">Illustrative figures, constructed for teaching.</p>
+  <aside class="notes">Once you have a definition, you search for cases: Emergency records, sick leave, staff health clinic, and asking around. Each case goes into a line list, a table with one row per person and one column per fact. Name, age, job, department, when symptoms started, what symptoms, lab result. By Wednesday our team has 48 cases. The line list is the single most useful thing a manager can insist on. Every graph and every table that follows comes from it. If the data are messy here, everything after is messy.</aside>
+</section>
+
+<!-- 9 -->
+<section>
+  <h2>What does this shape tell you?</h2>
+<!--EPI:plain-->
+<svg class="epi" viewBox="0 0 1152 392" role="img" aria-label="Epidemic curve: 48 cases by 4-hour onset interval, one peak on Tuesday morning">
+<line class="grid" x1="70" x2="1136" y1="215.0" y2="215.0"/>
+<text class="tick" x="58" y="221.0" text-anchor="end">5</text>
+<line class="grid" x1="70" x2="1136" y1="100.0" y2="100.0"/>
+<text class="tick" x="58" y="106.0" text-anchor="end">10</text>
+<text class="tick" x="58" y="336" text-anchor="end">0</text>
+<rect class="case" x="486.6" y="309.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="545.8" y="309.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="545.8" y="286.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="545.8" y="263.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="545.8" y="240.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="309.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="286.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="263.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="240.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="217.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="194.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="171.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="148.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="125.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="309.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="286.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="263.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="240.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="217.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="194.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="171.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="148.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="125.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="102.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="79.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="56.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="33.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="309.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="286.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="263.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="240.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="217.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="194.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="171.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="148.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="125.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="102.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="782.7" y="309.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="782.7" y="286.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="782.7" y="263.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="782.7" y="240.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="782.7" y="217.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="782.7" y="194.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="841.9" y="309.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="841.9" y="286.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="841.9" y="263.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="901.1" y="309.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="960.3" y="309.0" width="55.2" height="21" rx="2"/>
+<line class="axis" x1="70" x2="1136" y1="330" y2="330"/>
+<line class="axis" x1="70.0" x2="70.0" y1="330" y2="338"/>
+<text class="tick" x="70.0" y="362" text-anchor="start">Sun 12:00</text>
+<line class="axis" x1="247.7" x2="247.7" y1="330" y2="338"/>
+<text class="tick" x="247.7" y="362" text-anchor="middle">Mon 00:00</text>
+<line class="axis" x1="425.3" x2="425.3" y1="330" y2="338"/>
+<text class="tick" x="425.3" y="362" text-anchor="middle">Mon 12:00</text>
+<line class="axis" x1="603.0" x2="603.0" y1="330" y2="338"/>
+<text class="tick" x="603.0" y="362" text-anchor="middle">Tue 00:00</text>
+<line class="axis" x1="780.7" x2="780.7" y1="330" y2="338"/>
+<text class="tick" x="780.7" y="362" text-anchor="middle">Tue 12:00</text>
+<line class="axis" x1="958.3" x2="958.3" y1="330" y2="338"/>
+<text class="tick" x="958.3" y="362" text-anchor="middle">Wed 00:00</text>
+<line class="axis" x1="1136.0" x2="1136.0" y1="330" y2="338"/>
+<text class="tick" x="1136.0" y="362" text-anchor="end">Wed 12:00</text>
+<text class="tick dimt" x="70" y="390">Each box is one case. Onset of diarrhoea, 4-hour intervals.</text>
+</svg>
+<!--/EPI-->
+  <p class="cite">Illustrative figures, constructed for teaching. 48 cases.</p>
+  <aside class="notes">This is an epidemic curve, or epi curve. It is a histogram of cases by time of onset. Each box is one person. Look at it for a moment and tell me what you see. Where does it start? Where is the peak? How quickly does it end? Is there one peak or several? Let the room talk. Some will say it rose fast and fell fast. Some will say everyone got sick around the same time. Hold those answers. The next slide explains what they mean.</aside>
+</section>
+
+<!-- 10 -->
+<section>
+  <h2>One sharp peak points to one shared exposure</h2>
+<!--EPI:window-->
+<svg class="epi" viewBox="0 0 1152 392" role="img" aria-label="Epidemic curve: 48 cases by 4-hour onset interval, one peak on Tuesday morning">
+<rect class="win" x="181.0" y="18" width="355.3" height="312"/>
+<text class="lbl" x="358.7" y="46" text-anchor="middle">Likely exposure</text>
+<text class="lbl dimt" x="358.7" y="70" text-anchor="middle">12 to 36 h before</text>
+<line class="grid" x1="70" x2="1136" y1="215.0" y2="215.0"/>
+<text class="tick" x="58" y="221.0" text-anchor="end">5</text>
+<line class="grid" x1="70" x2="1136" y1="100.0" y2="100.0"/>
+<text class="tick" x="58" y="106.0" text-anchor="end">10</text>
+<text class="tick" x="58" y="336" text-anchor="end">0</text>
+<rect class="case" x="486.6" y="309.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="545.8" y="309.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="545.8" y="286.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="545.8" y="263.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="545.8" y="240.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="309.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="286.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="263.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="240.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="217.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="194.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="171.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="148.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="605.0" y="125.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="309.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="286.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="263.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="240.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="217.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="194.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="171.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="148.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="125.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="102.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="79.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="56.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="664.2" y="33.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="309.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="286.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="263.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="240.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="217.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="194.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="171.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="148.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="125.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="723.4" y="102.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="782.7" y="309.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="782.7" y="286.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="782.7" y="263.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="782.7" y="240.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="782.7" y="217.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="782.7" y="194.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="841.9" y="309.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="841.9" y="286.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="841.9" y="263.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="901.1" y="309.0" width="55.2" height="21" rx="2"/>
+<rect class="case" x="960.3" y="309.0" width="55.2" height="21" rx="2"/>
+<line class="halo" x1="714.0" x2="714.0" y1="18" y2="330"/>
+<line class="med" x1="714.0" x2="714.0" y1="18" y2="330"/>
+<text class="lbl" x="724.0" y="40">Median onset, Tue 07:30</text>
+<line class="lunch" x1="443.8" x2="443.8" y1="130" y2="330"/>
+<circle class="lunchdot" cx="443.8" cy="130" r="6"/>
+<text class="lbl" x="443.8" y="116" text-anchor="middle">Mon lunch</text>
+<line class="axis" x1="70" x2="1136" y1="330" y2="330"/>
+<line class="axis" x1="70.0" x2="70.0" y1="330" y2="338"/>
+<text class="tick" x="70.0" y="362" text-anchor="start">Sun 12:00</text>
+<line class="axis" x1="247.7" x2="247.7" y1="330" y2="338"/>
+<text class="tick" x="247.7" y="362" text-anchor="middle">Mon 00:00</text>
+<line class="axis" x1="425.3" x2="425.3" y1="330" y2="338"/>
+<text class="tick" x="425.3" y="362" text-anchor="middle">Mon 12:00</text>
+<line class="axis" x1="603.0" x2="603.0" y1="330" y2="338"/>
+<text class="tick" x="603.0" y="362" text-anchor="middle">Tue 00:00</text>
+<line class="axis" x1="780.7" x2="780.7" y1="330" y2="338"/>
+<text class="tick" x="780.7" y="362" text-anchor="middle">Tue 12:00</text>
+<line class="axis" x1="958.3" x2="958.3" y1="330" y2="338"/>
+<text class="tick" x="958.3" y="362" text-anchor="middle">Wed 00:00</text>
+<line class="axis" x1="1136.0" x2="1136.0" y1="330" y2="338"/>
+<text class="tick" x="1136.0" y="362" text-anchor="end">Wed 12:00</text>
+<text class="tick dimt" x="70" y="390">Each box is one case. Onset of diarrhoea, 4-hour intervals.</text>
+</svg>
+<!--/EPI-->
+  <p class="small" style="margin-top:10px">Salmonella usually takes 12 to 36 hours to cause symptoms (range 6 to 72). Count back from the median onset: the exposure falls between Sunday evening and Monday evening. Monday lunch sits inside.</p>
+  <p class="cite">Incubation period: Heymann DL, ed. Control of Communicable Diseases Manual, 21st ed. APHA Press, 2022.</p>
+  <aside class="notes">A rapid rise, a single peak and a quick fall means everyone was exposed at about the same time to the same source. This is called a point source outbreak. A continuing source, like a contaminated water tank, gives a plateau. Person to person spread gives successive waves. Now the useful trick. The incubation period is the time from exposure to first symptoms. By Tuesday afternoon the lab reports Salmonella in the first stool samples. Salmonella usually takes 12 to 36 hours. Our median onset is Tuesday 07:30. Count back 12 to 36 hours and you land between Sunday evening and Monday evening. What did many staff share in that window? Monday lunch at the staff canteen.</aside>
+</section>
+
+<!-- 11 -->
+<section>
+  <h2>The wards are not the link. What the staff share is</h2>
+  <div class="cards c2">
+    <div>
+      <table class="small">
+        <tr><th>Department</th><th class="num">Cases</th></tr>
+        <tr><td>Surgery</td><td class="num">10</td></tr>
+        <tr><td>Medicine</td><td class="num">9</td></tr>
+        <tr><td>Admin block</td><td class="num">7</td></tr>
+        <tr><td>Emergency</td><td class="num">6</td></tr>
+        <tr><td>OT complex</td><td class="num">5</td></tr>
+        <tr><td>Laboratory, Main gate</td><td class="num">4 each</td></tr>
+        <tr><td>NICU, Paediatrics</td><td class="num">3</td></tr>
+      </table>
+    </div>
+    <div>
+      <p class="lede">Place: cases in nine departments, with no single ward standing out.</p>
+      <p class="lede">Person: all jobs, ages 22 to 56, day shift workers.</p>
+      <p class="claim">Night staff and people who bring lunch from home are almost untouched.</p>
+    </div>
+  </div>
+  <p class="cite">Illustrative figures, constructed for teaching.</p>
+  <aside class="notes">Time told us when. Now place and person. If the cases were all in one ward, we would look at that ward: its water, its equipment, its patients. Here they are spread across nine departments, and across every kind of job. That tells us the ward is not the source. Something these people share is. And look at who is not sick: night staff and people who bring food from home. When you describe time, place and person, the gaps are often as informative as the cases.</aside>
+</section>
+
+<!-- 12 -->
+<section>
+  <h2>Our suspect is Monday lunch. How do we test it?</h2>
+  <p class="lede">A hypothesis is a testable guess about source and route. Ours: something served at Monday lunch in the staff canteen.</p>
+  <div class="cards c2">
+    <div class="card good"><h3>Cohort study, used here</h3><p class="small">The canteen's meal tokens list 240 people who ate. Interview them all about what they ate, ill or well. We reached 180.</p></div>
+    <div class="card"><h3>Case-control study</h3><p class="small">When you cannot list everyone exposed, compare cases with similar people who stayed well.</p></div>
+  </div>
+  <p class="claim">Both designs do the same thing: compare the ill with the well.</p>
+  <p class="cite">Illustrative figures, constructed for teaching.</p>
+  <aside class="notes">A hypothesis is a testable guess about the source and how it spread. Ours is Monday lunch. Now we need to test it with data, not opinion. The canteen issues meal tokens, so we have a list of everyone who ate: 240 people. That is a defined group, a cohort. We interview all of them, sick or not, about each dish they ate. We reached 180. When you cannot list everyone exposed, like a wedding with no guest list, you do a case-control study instead: interview cases and a group of similar people who stayed well. Both designs compare ill with well.</aside>
+</section>
+
+<!-- 13 -->
+<section>
+  <h2>Attack rate: the share of exposed people who fell ill</h2>
+  <div class="eq">
+    <i>Attack rate</i><span class="op">=</span>
+    <span class="frac"><span class="n">people who ate the dish and fell ill</span><span class="d">all people who ate the dish</span></span>
+    <span class="op">× 100</span>
+  </div>
+  <p class="eqnote">It is a proportion over the whole outbreak, not a rate per unit of time. The name is historical.</p>
+  <div class="eq sm">
+    <i>Chicken biryani</i><span class="op">=</span>
+    <span class="frac"><span class="n">42</span><span class="d">96</span></span>
+    <span class="op">=</span><span>43.8%</span>
+  </div>
+  <p class="claim">Compute it twice for every dish: once for those who ate it, once for those who did not.</p>
+  <p class="cite">Illustrative figures, constructed for teaching.</p>
+  <aside class="notes">The main measure here is the attack rate. It is the number who ate a dish and fell ill, divided by everyone who ate that dish, times one hundred. Despite the name, it is a proportion, not a rate, because there is no time unit in it. For the chicken biryani, 42 of the 96 people who ate it fell ill: 43.8 percent. But a single number means nothing on its own. We need the same calculation for people who did not eat the biryani. That comparison is the whole test.</aside>
+</section>
+
+<!-- 14 -->
+<section>
+  <h2>Which dish would you take off the menu?</h2>
+  <table>
+    <tr><th>Dish</th><th class="num">Ate: ill / total</th><th class="num">Attack rate</th><th class="num">Did not eat: ill / total</th><th class="num">Attack rate</th></tr>
+    <tr><td>Chicken biryani</td><td class="num">42 / 96</td><td class="num">43.8%</td><td class="num">6 / 84</td><td class="num">7.1%</td></tr>
+    <tr><td>Raita</td><td class="num">38 / 110</td><td class="num">34.5%</td><td class="num">10 / 70</td><td class="num">14.3%</td></tr>
+    <tr><td>Veg pulao</td><td class="num">8 / 80</td><td class="num">10.0%</td><td class="num">40 / 100</td><td class="num">40.0%</td></tr>
+    <tr><td>Dal</td><td class="num">40 / 150</td><td class="num">26.7%</td><td class="num">8 / 30</td><td class="num">26.7%</td></tr>
+    <tr><td>Salad</td><td class="num">20 / 70</td><td class="num">28.6%</td><td class="num">28 / 110</td><td class="num">25.5%</td></tr>
+    <tr><td>Gulab jamun</td><td class="num">17 / 60</td><td class="num">28.3%</td><td class="num">31 / 120</td><td class="num">25.8%</td></tr>
+  </table>
+  <p class="lede">Look for a high attack rate among eaters and a low one among non-eaters.</p>
+  <p class="cite">Illustrative figures, constructed for teaching. 180 people interviewed, 48 cases.</p>
+  <aside class="notes">Here is the food table. For each dish, the attack rate among those who ate it and among those who did not. Give the room two minutes. Which dish would you remove? Watch for two traps. Dal was eaten by almost everyone, so many cases ate it, but the attack rate is the same whether you ate it or not. And raita also looks high. Keep that in mind. Ask for a show of hands before moving on.</aside>
+</section>
+
+<!-- 15 -->
+<section>
+  <h2>Eating the biryani carried six times the risk</h2>
+  <div class="cards c2">
+    <div>
+      <div class="eq sm">
+        <i>Relative risk</i><span class="op">=</span>
+        <span class="frac"><span class="n">43.8%</span><span class="d">7.1%</span></span>
+        <span class="op">=</span><span>6.1</span>
+      </div>
+      <p class="eqnote">Attack rate in eaters divided by attack rate in non-eaters. 1 means no difference.</p>
+    </div>
+    <table class="small">
+      <tr><th>Dish</th><th class="num">Relative risk</th><th></th></tr>
+      <tr><td class="hl">Chicken biryani</td><td class="num hl">6.1</td><td><span class="pill bad">suspect</span></td></tr>
+      <tr><td>Raita</td><td class="num">2.4</td><td><span class="pill warn">check</span></td></tr>
+      <tr><td>Veg pulao</td><td class="num">0.25</td><td><span class="pill warn">check</span></td></tr>
+      <tr><td>Dal</td><td class="num">1.0</td><td><span class="pill good">clear</span></td></tr>
+      <tr><td>Salad</td><td class="num">1.1</td><td><span class="pill good">clear</span></td></tr>
+      <tr><td>Gulab jamun</td><td class="num">1.1</td><td><span class="pill good">clear</span></td></tr>
+    </table>
+  </div>
+  <p class="claim">Biryani: relative risk 6.1, 95% confidence interval 2.7 to 13.7. And 42 of the 48 cases ate it.</p>
+  <p class="cite">Illustrative figures, constructed for teaching.</p>
+  <aside class="notes">The relative risk divides the attack rate in eaters by the attack rate in non-eaters. One means the dish made no difference. Above one means eaters were more likely to fall ill. For biryani it is 6.1: six times the risk. The confidence interval, 2.7 to 13.7, tells us chance alone is an unlikely explanation. And 42 of our 48 cases ate it, so it explains most of the outbreak. Veg pulao looks protective, with a relative risk below one. That is because people who chose pulao mostly did not take biryani. Raita is still at 2.4. Is raita a second culprit? Next slide.</aside>
+</section>
+
+<!-- 16 -->
+<section>
+  <h2>Raita looks guilty too. Is it?</h2>
+  <p class="lede">Most people who took raita also took biryani. Split the table by biryani and look again.</p>
+  <table>
+    <tr><th>Group</th><th class="num">Raita: ill / total</th><th class="num">Attack rate</th><th class="num">No raita: ill / total</th><th class="num">Attack rate</th><th class="num">Relative risk</th></tr>
+    <tr><td>Ate biryani</td><td class="num">37 / 85</td><td class="num">43.5%</td><td class="num">5 / 11</td><td class="num">45.5%</td><td class="num">1.0</td></tr>
+    <tr><td>No biryani</td><td class="num">1 / 25</td><td class="num">4.0%</td><td class="num">5 / 59</td><td class="num">8.5%</td><td class="num">0.5</td></tr>
+  </table>
+  <p class="claim good">Within each group, raita makes no difference. It rode along with the biryani.</p>
+  <p class="small dim">This is confounding: a third factor linked to both the exposure and the illness creates a false association.</p>
+  <p class="cite">Illustrative figures, constructed for teaching.</p>
+  <aside class="notes">Raita came with the biryani. Most people who took one took the other. So is raita dangerous, or is it just keeping bad company? We split the table. Among people who ate biryani, those who took raita and those who did not got sick at the same rate. Among those who skipped biryani, raita did not raise risk either. So raita is cleared. This is called confounding: a third factor, here the biryani, is linked to both raita and illness and creates a false association. In real outbreaks this is common, because dishes are served together. Always ask what else travels with your suspect.</aside>
+</section>
+
+<!-- 17 -->
+<section>
+  <h2>Your turn: run the investigation on the full data</h2>
+  <div class="cards c2">
+    <div class="card"><h3>Lab 1: Case definition and epi curve</h3><p class="small">Loosen or tighten the case definition. Watch the case count, the curve, and the biryani relative risk change.</p><p class="small dim"><a href="../widgets/case-definition.html">Open Lab 1</a></p></div>
+    <div class="card"><h3>Lab 2: Food attack rates</h3><p class="small">Pick any dish, see its 2 by 2 table and relative risk, then split by biryani to find the confounder.</p><p class="small dim"><a href="../widgets/attack-rate-lab.html">Open Lab 2</a></p></div>
+  </div>
+  <p class="lede" style="margin-top:24px">On your phone: <strong>drpakhare.github.io/mhm-outbreak-investigation</strong></p>
+  <p class="lede">In pairs, five minutes. Find one case definition that makes the biryani look less guilty, and explain why.</p>
+  <p class="cite">Both labs use the same 180 interviews. Illustrative figures, constructed for teaching.</p>
+  <aside class="notes">Now it is your turn. Open the address on the slide on your phone or laptop, and choose Lab 1 or Lab 2. They use the same 180 interviews we just saw. In the first lab, change the case definition. If you count anyone with even one loose stool, or vomiting alone, you pull in people who were not really part of the outbreak. Watch what happens to the relative risk. It shrinks, because you have mixed in noise. That is why a careful case definition matters. In the second lab, try any dish and then split by biryani. Five minutes, in pairs. Then tell us what you found.</aside>
+</section>
+
+<!-- 18 -->
+<section>
+  <h2>A strong association is not yet proof</h2>
+  <p class="lede">The numbers point at the biryani. Three other lines of evidence must agree.</p>
+  <div class="cards c3">
+    <div class="card"><h3>Laboratory</h3><p class="small">Salmonella in 19 of 23 stool samples. Same organism in the leftover biryani sample.</p></div>
+    <div class="card"><h3>Kitchen</h3><p class="small">Chicken cooked on Sunday night, left at room temperature for five hours, reheated on Monday.</p></div>
+    <div class="card"><h3>Food handlers</h3><p class="small">Stool samples from all kitchen staff. One cook had mild diarrhoea last week.</p></div>
+  </div>
+  <p class="claim good">Epidemiology, lab and kitchen findings tell the same story. Now the conclusion is safe.</p>
+  <p class="cite">Illustrative figures, constructed for teaching.</p>
+  <aside class="notes">A relative risk of six is strong evidence, but it is still statistics. We want the laboratory, the kitchen and the people to tell the same story. Stool samples: 19 of 23 grew Salmonella. The leftover biryani, which the canteen was told to keep on Tuesday morning, grew the same organism. The kitchen inspection found the chicken was cooked on Sunday night and left out for five hours before reheating. That is the classic setting for bacteria to multiply. And kitchen staff are screened. When three independent lines agree, you can be confident.</aside>
+</section>
+
+<!-- 19 -->
+<section>
+  <h2>You act on day one, not after the analysis</h2>
+  <table>
+    <tr><th>When</th><th>Action</th><th>Who decides</th></tr>
+    <tr><td>Tuesday, 10 am</td><td>Stop serving leftovers. Keep samples of every Monday dish.</td><td>Manager, canteen contractor</td></tr>
+    <tr><td>Tuesday, 10 am</td><td>Sick staff stay off patient care and food handling until 48 hours after symptoms stop.</td><td>Infection control, nursing</td></tr>
+    <tr><td>Tuesday, noon</td><td>Emergency staff roster. Postpone non-urgent surgery lists if staffing is short.</td><td>Manager, medical superintendent</td></tr>
+    <tr><td>Wednesday</td><td>Kitchen cleaned, cooking and holding temperatures logged, cook excluded until cleared.</td><td>Food safety officer</td></tr>
+  </table>
+  <p class="claim warn">Waiting for proof while the source is still active is the most common and costly mistake.</p>
+  <p class="cite">Exclusion period as per the hospital infection control policy. Timeline illustrative.</p>
+  <aside class="notes">Here is the most important point for managers. Control does not wait for the relative risk. On Tuesday morning, with only a strong suspicion, we stopped leftovers and kept food samples. Sick staff were kept away from patients and food handling until 48 hours after their symptoms stopped. That matters most in places like the NICU. The roster was rebuilt and non-urgent surgery postponed where needed. On Wednesday, once the kitchen findings came in, deeper measures followed. Early action based on a reasonable suspicion can be adjusted later. Late action cannot undo cases.</aside>
+</section>
+
+<!-- 20 -->
+<section>
+  <h2>Who needs to hear, and in what order?</h2>
+  <div class="cards c4">
+    <div class="card"><h3>Inside, first hours</h3><p class="small">Medical superintendent, Hospital Infection Control Committee, heads of affected departments.</p></div>
+    <div class="card"><h3>Public health, same day</h3><p class="small">District Surveillance Unit under IDSP, the Integrated Disease Surveillance Programme.</p></div>
+    <div class="card"><h3>Staff and patients</h3><p class="small">What happened, what to do if unwell, who to call. Plain and short.</p></div>
+    <div class="card"><h3>Media</h3><p class="small">One spokesperson. Facts, actions taken, next update time.</p></div>
+  </div>
+  <p class="claim">Silence gets filled by rumour. Tell people early, tell them what you know and what you do not know yet.</p>
+  <aside class="notes">Communication is part of the response, not an afterthought. Inside the hospital, the medical superintendent and the Hospital Infection Control Committee hear within hours. Public health authorities hear the same day. In India that means the District Surveillance Unit of the Integrated Disease Surveillance Programme, IDSP. They may send a rapid response team and they need to know if cases appear outside the hospital. Staff need plain instructions. And the media get one spokesperson with facts and a time for the next update. Say what you know, and say what you do not know yet.</aside>
+</section>
+
+<!-- 21 -->
+<section>
+  <h2>Same steps, inside the NICU</h2>
+  <p class="lede">A healthcare-associated infection is one that was not present or incubating when the patient was admitted.</p>
+  <table>
+    <tr><th></th><th>Canteen outbreak</th><th>NICU cluster of bloodstream infections</th></tr>
+    <tr><td>Baseline</td><td>Staff sick leave records</td><td>Monthly infection surveillance rates</td></tr>
+    <tr><td>Curve shape</td><td>One sharp peak</td><td>Slow build over weeks, continuing source</td></tr>
+    <tr><td>Likely sources</td><td>A dish, a cook</td><td>Hands, fluids, equipment, a sink</td></tr>
+    <tr><td>Study design</td><td>Cohort, everyone listed</td><td>Often case-control, few cases</td></tr>
+    <tr><td>Control</td><td>Stop the dish</td><td>Cohort babies and staff, hand hygiene audit, environmental cultures</td></tr>
+  </table>
+  <aside class="notes">Our example was food. Most of the outbreaks you will manage are inside the wards: a cluster of bloodstream infections in the NICU, or a resistant organism on an ICU. A healthcare-associated infection is one that was not present or incubating when the patient was admitted. The logic is the same: confirm against baseline, define cases, line list, describe, hypothesise, test, control, communicate. What changes is the detail. The baseline comes from your routine infection surveillance. The curve often builds slowly. The sources are hands, fluids and equipment. With few cases, a case-control study is common. And control means cohorting and audits. That is why surveillance data matter before any outbreak.</aside>
+</section>
+
+<!-- 22 -->
+<section>
+  <h2>What must exist before the next outbreak?</h2>
+  <div class="cards c3">
+    <div class="card"><h3>Before</h3><p class="small">A named outbreak team with authority. Baseline surveillance data. A written outbreak policy. Lab and IDSP contacts.</p></div>
+    <div class="card"><h3>During</h3><p class="small">Daily team meeting. One line list. Decision log with times. Staff roster backup. One spokesperson.</p></div>
+    <div class="card"><h3>After</h3><p class="small">Written report. Fixes assigned with owners and dates. Follow-up audit.</p></div>
+  </div>
+  <p class="claim">The quality of your response on Tuesday was decided months earlier.</p>
+  <aside class="notes">What should a manager put in place now, before anything happens? An outbreak team with authority to act, baseline surveillance data so you can tell when numbers rise, a written policy, and contacts for the lab and the district. During an outbreak, a daily meeting, one shared line list, and a log of decisions with times. That log protects you later. After it ends, a report and a list of fixes with owners and dates. Our Tuesday went well only because some of this was ready.</aside>
+</section>
+
+<!-- 23 -->
+<section>
+  <h2>An outbreak ends with a report, not with relief</h2>
+  <p class="lede">The outbreak is over when cases return to baseline for twice the longest incubation period. For Salmonella, about six days.</p>
+  <div class="cards c2">
+    <div class="card"><h3>The report says</h3><p class="small">What happened, how we know, what we did and when, what it cost, and what we are changing.</p></div>
+    <div class="card good"><h3>What we changed</h3><p class="small">No next-day reheating of cooked meat. Temperature logs checked weekly. Food handler illness reporting with paid sick leave.</p></div>
+  </div>
+  <p class="claim warn">If nothing in the system changes, the report was only paperwork.</p>
+  <aside class="notes">When do you declare it over? A common rule is when no new cases appear for twice the maximum incubation period. For Salmonella that is about six days. Then write the report: what happened, the evidence, the actions with dates, and the cost. Most importantly, what changes. Here, no more cooking meat one day and serving it the next, weekly checks of temperature logs, and a rule that food handlers report illness, with paid sick leave so they are not tempted to hide it. If nothing in the system changes, it will happen again.</aside>
+</section>
+
+<!-- 24 -->
+<section>
+  <h2>Three things to carry out of this room</h2>
+  <p class="claim">An outbreak is more cases than expected. You need a baseline to know.</p>
+  <p class="claim">Compare the ill with the well. The line list, the epi curve and the attack rate table do this.</p>
+  <p class="claim good">Act on a reasonable suspicion. Control and communication start on day one.</p>
+  <aside class="notes">Three things to take away. First, an outbreak is more cases than expected, so you need routine data to know what is expected. Second, the method is always the same: compare the ill with the well, using the line list, the epi curve and the attack rate table. Third, as a manager, do not wait for proof to protect people. Act on a reasonable suspicion, and communicate early. Questions?</aside>
+</section>
+
+<!-- 25 -->
+<section>
+  <h2>Sources and further reading</h2>
+  <ol class="sources">
+    <li>Centers for Disease Control and Prevention. Principles of Epidemiology in Public Health Practice, 3rd ed. Lesson 6: Investigating an outbreak. Atlanta: CDC; 2012.</li>
+    <li>Rasmussen SA, Goodman RA, eds. The CDC Field Epidemiology Manual. New York: Oxford University Press; 2019.</li>
+    <li>Reingold AL. Outbreak investigations: a perspective. Emerg Infect Dis. 1998;4(1):21-27. PMID 9452395.</li>
+    <li>Heymann DL, ed. Control of Communicable Diseases Manual, 21st ed. Washington DC: APHA Press; 2022. Salmonellosis.</li>
+    <li>National Centre for Disease Control. Integrated Disease Surveillance Programme (IDSP). idsp.mohfw.gov.in</li>
+  </ol>
+  <p class="small dim">The canteen outbreak, its line list and all its numbers are illustrative, constructed for teaching.</p>
+  <aside class="notes">These are the sources. The CDC lesson is free online and is the best single read after today. Reingold's short paper gives the practical view of what really happens in the field. The Control of Communicable Diseases Manual gives incubation periods and control measures for each disease. And the IDSP site has India's reporting formats. Remember, the canteen outbreak itself is invented for teaching.</aside>
+</section>
+
+</div></div>
+<script src="../vendor/reveal.js/dist/reveal.js"></script>
+<script src="../vendor/reveal.js/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1280, height: 720, margin: 0, center: false, transition: 'fade',
+    hash: true, slideNumber: 'c/t', plugins: [RevealNotes]
+  });
+</script>
+</body>
+</html>

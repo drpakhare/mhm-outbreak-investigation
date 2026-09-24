@@ -1,0 +1,84 @@
+/* House slide style for 1280 x 720 reveal.js decks.
+   NOTE: reconstructed from the house-style brief. Replace with the original
+   slides.css when this deck moves next to the other decks. */
+
+.reveal-viewport { background: var(--paper); }
+.reveal { font-family: var(--font-body); font-size: var(--fs-body); color: var(--ink); line-height: 1.35; }
+.reveal .slides { text-align: left; }
+.reveal .slides > section { padding: 0 !important; width: 1280px; height: 720px; box-sizing: border-box; }
+.reveal .slides > section > * { margin-left: 64px; margin-right: 64px; }
+
+/* Band */
+.reveal h2 {
+  margin: 0 0 28px 0 !important;
+  padding: 26px 64px 22px;
+  background: var(--band); color: var(--band-ink);
+  font-family: var(--font-head); font-weight: 600; font-size: 38px; line-height: 1.15;
+  font-variant: small-caps; letter-spacing: 0.01em; text-transform: none;
+}
+.reveal h3 { font-family: var(--font-head); color: var(--band); font-size: 25px; margin: 0 0 8px; font-weight: 600; text-transform: none; line-height: 1.2; }
+.reveal p { margin: 0 0 16px; }
+.reveal ul, .reveal ol { margin: 0 0 16px 1.1em; display: block; }
+.reveal li { margin-bottom: 8px; }
+.reveal strong { color: var(--band); }
+.nocaps { font-variant: normal !important; }
+
+/* Cover */
+.reveal section.cover { background: var(--band); color: var(--band-ink); padding-top: 170px !important; }
+.reveal section.cover .kicker { font-size: var(--fs-small); letter-spacing: 0.14em; text-transform: uppercase; color: #aeb9dd; margin-bottom: 18px; }
+.reveal section.cover h1 { font-family: var(--font-head); color: #fff; font-size: 64px; line-height: 1.1; margin: 0 64px 26px; font-weight: 600; text-transform: none; text-align: left; }
+.reveal section.cover .lede.dim { color: #d3d9ee; }
+.reveal section.cover .small.faint { color: #9aa6cf; margin-top: 60px; }
+
+/* Text */
+.lede { font-size: var(--fs-lede); line-height: 1.3; }
+.small { font-size: var(--fs-small); }
+.dim { color: var(--dim); }
+.faint { color: var(--faint); }
+
+/* Callouts */
+.claim { border-left: 6px solid var(--band); padding: 10px 0 10px 22px; font-size: 29px; font-family: var(--font-head); color: var(--band); margin-top: 18px; margin-bottom: 18px; line-height: 1.3; }
+.claim.good { border-color: var(--good); color: var(--good); background: var(--good-wash); padding-right: 18px; }
+.claim.warn { border-color: var(--warn); color: var(--warn); background: var(--warn-wash); padding-right: 18px; }
+
+/* Maths */
+.eq { font-family: var(--font-head); font-size: 36px; text-align: center; margin: 22px 64px; display: flex; align-items: center; justify-content: center; gap: 18px; }
+.eq.sm { font-size: 28px; }
+.eq .op { color: var(--dim); }
+.frac { display: inline-flex; flex-direction: column; align-items: center; }
+.frac .n { border-bottom: 2px solid var(--ink); padding: 0 10px 4px; }
+.frac .d { padding: 4px 10px 0; }
+.eqnote { text-align: center; color: var(--dim); font-size: var(--fs-small); }
+
+/* Blocks */
+.cards { display: grid; gap: 18px; }
+.cards.c2 { grid-template-columns: repeat(2, 1fr); }
+.cards.c3 { grid-template-columns: repeat(3, 1fr); }
+.cards.c4 { grid-template-columns: repeat(4, 1fr); }
+.card { background: var(--wash); border-top: 4px solid var(--band); padding: 16px 18px 12px; }
+.card p.small { margin: 0 0 6px; line-height: 1.3; }
+.card.good { border-top-color: var(--good); background: var(--good-wash); }
+.card.bad { border-top-color: var(--bad); background: var(--bad-wash); }
+.stat { display: inline-block; margin-right: 56px; }
+.stat .n { display: block; font-family: var(--font-head); font-size: 64px; color: var(--band); line-height: 1; }
+.stat .l { display: block; font-size: var(--fs-small); color: var(--dim); margin-top: 6px; }
+.grid6 { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, auto); gap: 14px; }
+
+/* Tables */
+.reveal table { border-collapse: collapse; font-size: var(--fs-small); margin-top: 4px; margin-bottom: 14px; }
+.reveal th { text-align: left; border-bottom: 2px solid var(--band); color: var(--band); padding: 6px 12px; font-weight: 600; }
+.reveal td { border-bottom: 1px solid var(--rule); padding: 6px 12px; }
+.reveal td.num, .reveal th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.pill { display: inline-block; padding: 1px 12px; border-radius: 999px; font-size: var(--fs-min); background: var(--wash); color: var(--dim); font-weight: 600; }
+.pill.good { background: var(--good-wash); color: var(--good); }
+.pill.bad { background: var(--bad-wash); color: var(--bad); }
+.pill.warn { background: var(--warn-wash); color: var(--warn); }
+
+/* Attribution */
+.cite { position: absolute; bottom: 22px; left: 0; font-size: var(--fs-min); color: var(--faint); }
+ol.sources { font-size: var(--fs-min); line-height: 1.35; }
+ol.sources li { margin-bottom: 10px; }
+ol.sources.two { columns: 2; column-gap: 48px; }
+
+/* Print kit */
+@media print { .reveal .slides > section { page-break-after: always; } }
