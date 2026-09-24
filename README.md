@@ -28,6 +28,6 @@ house style of `intro-economic-evaluation-health`. It follows one illustrative o
 All outbreak figures are illustrative, constructed for teaching.
 
 ## Credits
-Prepared by Dr. Abhijit Pakhare, AIIMS Bhopal.
+Prepared at AIIMS Bhopal.
 The slides, the two labs, the illustrative dataset and the build scripts were drafted and coded with
-Claude (Anthropic), then reviewed by the author. Slides use reveal.js (MIT licence).
+Claude (Anthropic), then reviewed by the faculty. Slides use reveal.js (MIT licence).
